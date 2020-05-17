@@ -89,6 +89,8 @@ struct Knife
     void stab();
     
     void unscrew();
+
+    void costOfKnife();
 };
 
 Knife::Incision::Incision()
@@ -133,6 +135,11 @@ void Knife::unscrew()
     std::cout << "pointiness: " << pointiness << "\n";
 }
 
+void Knife::costOfKnife()
+{
+    std::cout << "this knife costs " << this->price << " schmeckels\n";
+}
+
 /*
  copied UDT 2:
  */
@@ -154,6 +161,8 @@ struct Light
     float addedQuality();
 
     float fade(float intensity);
+    
+    void costOfLight();
 };
 
 Light::Light()
@@ -191,6 +200,11 @@ float Light::fade(float intensity)
         }   
     }
     return luminosity;
+}
+
+void Light::costOfLight()
+{
+    std::cout << "this Light costs " << this->price << " schmeckels\n";
 }
 /*
  copied UDT 3:
@@ -322,10 +336,16 @@ int main()
     machete.cut(prettyNastyCut);
 
     machete.stab();
+
+    std::cout << "machete costs " << machete.price << " schmeckels\n";
+
+    machete.costOfKnife();
     
     Light LEDpanel;
 
     std::cout << "Price of LEDpanel: " << LEDpanel.price << "\n";
+
+    LEDpanel.costOfLight();
 
     LEDpanel.fade(1003);
 
