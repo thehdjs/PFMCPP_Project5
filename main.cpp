@@ -40,7 +40,7 @@ You don't have to do this, you can keep your current object name and just change
  
  see here for an example: https://repl.it/@matkatmusic/ch3p04example
  */
-
+ #include "LeakedObjectDetector.h"
  #include <iostream>
 /*
  copied UDT 1:
@@ -69,6 +69,8 @@ struct Knife
     void unscrew();
 
     void costOfKnife();
+
+    JUCE_LEAK_DETECTOR(Knife)
 };
 
 Knife::Incision::Incision()
@@ -118,6 +120,17 @@ void Knife::costOfKnife()
     std::cout << "this knife costs " << this->price << " schmeckels\n";
 }
 
+struct KnifeWrapper
+{
+    KnifeWrapper(Knife* knifePtr) : ptrToaKnife (knifePtr) {}
+    ~KnifeWrapper()
+    {
+        delete ptrToaKnife;
+    }
+
+    Knife* ptrToaKnife = nullptr;
+
+};
 /*
  copied UDT 2:
  */
@@ -141,6 +154,8 @@ struct Light
     float fade(float intensity);
     
     void costOfLight();
+
+    JUCE_LEAK_DETECTOR(Light)
 };
 
 Light::Light()
@@ -184,6 +199,16 @@ void Light::costOfLight()
 {
     std::cout << "this Light costs " << this->price << " schmeckels\n";
 }
+
+struct LightWrapper
+{
+    LightWrapper(Light* lightPtr) : ptrToaLight(lightPtr) {}
+    ~LightWrapper() 
+    {
+         delete ptrToaLight;
+    }
+    Light* ptrToaLight = nullptr;
+};
 /*
  copied UDT 3:
  */
@@ -202,6 +227,8 @@ struct SwissArmyKnife
     void open();
    
     void unscrew();
+
+    JUCE_LEAK_DETECTOR(SwissArmyKnife)
 };
 
 SwissArmyKnife::SwissArmyKnife() : 
@@ -234,6 +261,15 @@ void SwissArmyKnife::unscrew()
     std::cout << "size: " << size << "\n";
 }
 
+struct SwissArmyKnifeWrapper
+{
+    SwissArmyKnifeWrapper(SwissArmyKnife* swissArmyKnifePtr) : ptrToaSwissArmyKnife(swissArmyKnifePtr) {}
+    ~SwissArmyKnifeWrapper()
+    {
+        delete ptrToaSwissArmyKnife;
+    }
+    SwissArmyKnife* ptrToaSwissArmyKnife = nullptr;
+};
 /*
  new UDT 4:
  */
@@ -249,6 +285,8 @@ struct KnifeShop
     void sell();
 
     bool isOpen ();
+
+    JUCE_LEAK_DETECTOR(KnifeShop)
 };
 
 KnifeShop::~KnifeShop()
@@ -261,6 +299,13 @@ void KnifeShop::sell()
 {
     std::cout << "Knife sold\n";
 }
+
+struct KnifeShopWrapper
+{
+    KnifeShopWrapper(KnifeShop* knifeShopPtr) : ptrToaKnifeShop(knifeShopPtr) {}
+    ~KnifeShopWrapper() {delete ptrToaKnifeShop;}
+    KnifeShop* ptrToaKnifeShop = nullptr;
+};
 /*
  new UDT 5:
  */
@@ -275,6 +320,8 @@ struct KillRoom
     ~KillRoom();
 
     void getCleaned();
+
+    JUCE_LEAK_DETECTOR(KillRoom)
 };
 
 KillRoom::~KillRoom()
@@ -287,6 +334,16 @@ void KillRoom::getCleaned()
     std::cout << "KillRoom is getting cleaned\n";
     neon.fade(1005);
 }
+
+struct KillRoomWrapper
+{
+    KillRoomWrapper(KillRoom* killRoomPtr) : ptrToaKillRoom (killRoomPtr) {}
+    ~KillRoomWrapper()
+    {
+        delete ptrToaKillRoom;
+    }
+    KillRoom* ptrToaKillRoom = nullptr;
+};
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
@@ -302,40 +359,40 @@ void KillRoom::getCleaned()
  Wait for my code review.
  */
 
-#include <iostream>
 int main()
 {
+    #include "LeakedObjectDetector.h"
     
-    Knife machete;
+    KnifeWrapper knifeWrapper(new Knife());
     Knife::Incision prettyNastyCut;
     
     std::cout << "machete ";
     
-    machete.cut(prettyNastyCut);
+    knifeWrapper.ptrToaKnife->cut(prettyNastyCut);
 
-    machete.stab();
+    knifeWrapper.ptrToaKnife->stab();
 
-    std::cout << "machete costs " << machete.price << " schmeckels\n";
+    std::cout << "machete costs " << knifeWrapper.ptrToaKnife->price << " schmeckels\n";
 
-    machete.costOfKnife();
+    knifeWrapper.ptrToaKnife->costOfKnife();
     
-    Light LEDpanel;
+    LightWrapper lightWrapper(new Light());
 
-    std::cout << "Price of LEDpanel: " << LEDpanel.price << "\n";
+    std::cout << "Price of LEDpanel: " << lightWrapper.ptrToaLight->price << "\n";
 
-    LEDpanel.costOfLight();
+    lightWrapper.ptrToaLight->costOfLight();
 
-    LEDpanel.fade(1003);
-
-    SwissArmyKnife vic;
+    lightWrapper.ptrToaLight->fade(1003);
+    
+    SwissArmyKnifeWrapper swissArmyKnifeWrapper(new SwissArmyKnife());
     Knife::Incision aNewCut;
 
     std::cout << "vic ";
     
-    vic.cut(aNewCut);
+    swissArmyKnifeWrapper.ptrToaSwissArmyKnife->cut(aNewCut);
 
-    KnifeShop onThirdStreet;
-    KillRoom myBasement;
+    KnifeShopWrapper knifeShopWrapper(new KnifeShop());
+    KillRoomWrapper killRoomWrapper(new KillRoom());
     
     std::cout << "good to go!" << std::endl;
 }
