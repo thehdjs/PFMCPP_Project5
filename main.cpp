@@ -34,6 +34,12 @@
 
  #include "LeakedObjectDetector.h"
  #include <iostream>
+#include "Knife.h"
+#include "Light.h"
+#include "SwissArmyKnife.h"
+#include "KnifeShop.h"
+#include "KillRoom.h"
+#include "Wrappers.h"
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -48,15 +54,10 @@
  Wait for my code review.
  */
 
+
+
 int main()
 {
-    #include "LeakedObjectDetector.h"
-    #include "Wrappers.h"
-    #include "Knife.h"
-    #include "Light.h"
-    #include "SwissArmyKnife.h"
-    #include "KnifeShop.h"
-    #include "KillRoom.h"
     
     KnifeWrapper knifeWrapper(new Knife());
     Knife::Incision prettyNastyCut;
@@ -90,4 +91,6 @@ int main()
     KillRoomWrapper killRoomWrapper(new KillRoom());
     
     std::cout << "good to go!" << std::endl;
+
+  return 0;
 }

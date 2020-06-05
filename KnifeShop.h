@@ -2,6 +2,8 @@
 #include "Knife.h"
 #include "SwissArmyKnife.h"
 
+#pragma once
+
 struct KnifeShop
 {
     Knife regularKnife;

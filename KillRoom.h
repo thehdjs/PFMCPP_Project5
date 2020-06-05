@@ -2,6 +2,8 @@
 #include "Knife.h"
 #include "LeakedObjectDetector.h"
 
+#pragma once
+
 struct KillRoom
 {
     Knife butchersKnife;
