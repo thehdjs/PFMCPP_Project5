@@ -1,8 +1,8 @@
-#include "Knife.h"
-#include "Light.h"
-#include "SwissArmyKnife.h"
-#include "KnifeShop.h"
-#include "KillRoom.h"
+struct Knife;
+struct Light;
+struct SwissArmyKnife;
+struct KnifeShop;
+struct KillRoom;
 
 struct KnifeWrapper
 {

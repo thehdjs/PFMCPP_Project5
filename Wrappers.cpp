@@ -1,3 +1,8 @@
+#include "Knife.h"
+#include "Light.h"
+#include "SwissArmyKnife.h"
+#include "KnifeShop.h"
+#include "KillRoom.h"
 #include "Wrappers.h"
 
 KnifeWrapper::KnifeWrapper(Knife* knifePtr) : ptrToaKnife(knifePtr)  {}
